@@ -20,22 +20,59 @@ class Todo extends React.Component {
   handleAddTask = () => {
     // this.setState({mainInputValue: e.target.value});
     // console.log("sss");
-    
+
+    if (this.state.mainInputValue === "") {
+      return alert("Please Enter Task");
+    }
     this.setState({
       tasks: [
         ...this.state.tasks,
-        { id: this.state.tasks.length, title: this.state.mainInputValue },
+        {
+          id: this.state.tasks.length,
+          title: this.state.mainInputValue,
+          isChecked: false,
+        },
       ],
     });
     // eslint-disable-next-line no-unused-expressions
     this.setState({ mainInputValue: "" });
-    if (this.state.mainInputValue === ""){
-        alert("Please Enter Task")
-    }
-    console.log(this.state.mainInputValue);
+
+    console.log("wwww", this.state.mainInputValue);
 
     // this.setState({showAddedTask: true, selectedForEdit:tasks,})
   };
+
+  handleRemovetask(id) {
+    // console.log("e ---", id);
+    // console.log("tasks", this.state.tasks);
+
+    let filtered = this.state.tasks.filter((item) => item.id !== id);
+
+    this.setState({
+      tasks: filtered,
+    });
+
+    console.log("filtered", filtered);
+  }
+
+  handleChangeCheckbox(id, isChecked) {
+    let updatedList = this.state.tasks.map((item) => {
+      if (item.id === id) {
+        item.isChecked = isChecked;
+      }
+      return item;
+    });
+    console.log("id", id);
+    console.log("checked", isChecked);
+    console.log("updated list", updatedList);
+
+    this.setState({
+      tasks: updatedList,
+    });
+    // this.setState({
+    //   tasks: filtered,
+    // })
+  }
 
   // handleDeleteTodoItem = (id) => {
   //     // console.log("delete", id)
@@ -43,10 +80,10 @@ class Todo extends React.Component {
   //     this.setState({todos: filtredTodos})
 
   // }
-//   handleEditTodoItem = (todo) => {
-//     // console.log("edit", todo)
-//     this.setState({ showEditor: true, selectedForEdit: todo });
-//   };
+  //   handleEditTodoItem = (todo) => {
+  //     // console.log("edit", todo)
+  //     this.setState({ showEditor: true, selectedForEdit: todo });
+  //   };
   //   handleUpdateTodo = (updatedTask) => {
   //     const updatedTasks = this.state.tasks.map((tasks) => {
   //       if (tasks.id === updatedTask.id) {
@@ -71,6 +108,7 @@ class Todo extends React.Component {
           <li>
             <div className="input-wrapper">
               <input
+                placeholder="Enter task"
                 onChange={(event) => this.onChangeInputValue(event)}
                 value={this.state.mainInputValue}
                 type="text"
@@ -89,7 +127,10 @@ class Todo extends React.Component {
               item={item}
               //   currentTodo={this.state.selectedForEdit}
               handleUpdate={this.handleUpdateTodo}
-              handleRemove={this.handleRemovetask}
+              handleRemove={(id) => this.handleRemovetask(id)}
+              handleCheckbox={(id, isCheked) =>
+                this.handleChangeCheckbox(id, isCheked)
+              }
             />
           );
         })}
