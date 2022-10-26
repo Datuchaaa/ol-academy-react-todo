@@ -1,71 +1,49 @@
-import React, { useState,  } from 'react';
+import React from "react";
 
-function Task() {
-  const []
-}
-class Task extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: "",
-      showEditor: false,
-      item: props.item,
-    };
-  }
-  handleChange = (event) => {
-    this.setState({ iputValue: event.target.value });
-  };
-  handleUpdate = () => {
-    this.props.handleUpdate({
-      id: this.props.currentTodo.id,
-      title: this.state.iputValue,
-    });
-    // console.log(this.state.iputValue)
-  };
+function Task(props) {
+  console.log("props", props);
 
-  handleRemovetask = (id) => {
-    this.props.handleRemove(id);
+  const handleRemovetask = (id) => {
+    props.handleRemove(id);
     console.log("remove task");
   };
-  handleChangeCheckbox = (e, id) => {
+  const _handleChangeCheckbox = (e, id) => {
     console.log("e", e);
-    this.props.handleCheckbox(id, e.nativeEvent.target.checked);
+    props.handleChangeCheckbox(id, e.target.checked);
   };
-  handleEditTodoItem = (e) => {
+  const handleEditTodoItem = (e) => {
     console.log("edit", e);
   };
 
-  render() {
-    return (
-      <div className="task-wrapper">
-        <label htmlFor="">Task:</label>
-        <input
-          className="task-input"
-          type="text"
-          name=""
-          id=""
-          value={this.state.item.title}
-          onChange={this.handleChange}
-        />
-        <button onClick={this.handleUpdate}>Update</button>
-        <button
-          disabled={!this.state.item.isChecked}
-          onClick={() => this.handleRemovetask(this.state.item.id)}
-        >
-          ❌
-        </button>
-        <button onClick={() => this.handleEditTodoItem(Task)}>✎</button>
+  return (
+    <div className="task-wrapper">
+      <label htmlFor="">Task:</label>
+      <input
+        className="task-input"
+        type="text"
+        name=""
+        id=""
+        value={props.item.title}
+        // onChange={handleChange}
+      />
+      <button>Update</button>
+      <button
+        // disabled={!props.item.isChecked}
+        onClick={() => handleRemovetask(props.item.id)}
+      >
+        ❌
+      </button>
+      <button onClick={() => handleEditTodoItem(Task)}>✎</button>
 
-        <button>⬇</button>
-        <button>⬆</button>
-        <input
-          checked={this.state.item.isChecked}
-          onChange={(e) => this.handleChangeCheckbox(e, this.state.item.id)}
-          type="checkbox"
-        />
-      </div>
-    );
-  }
+      <button>⬇</button>
+      <button>⬆</button>
+      <input
+        checked={props.item.isChecked}
+        onChange={(e) => _handleChangeCheckbox(e, props.item.id)}
+        type="checkbox"
+      />
+    </div>
+  );
 }
 
 export default Task;
