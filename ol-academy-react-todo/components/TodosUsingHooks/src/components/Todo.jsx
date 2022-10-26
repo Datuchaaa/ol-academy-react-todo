@@ -44,9 +44,7 @@ function Todo() {
     console.log("checked", isChecked);
     console.log("updated list", updatedList);
 
-    setTasks({
-      tasks: updatedList,
-    });
+    setTasks(updatedList);
   }
 
   function onChangeInputValue(e) {

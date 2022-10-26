@@ -9,7 +9,7 @@ function Task(props) {
   };
   const _handleChangeCheckbox = (e, id) => {
     console.log("e", e);
-    props.handleChangeCheckbox(id, e.target.checked);
+    props.handleCheckbox(id, e.target.checked);
   };
   const handleEditTodoItem = (e) => {
     console.log("edit", e);
@@ -28,7 +28,7 @@ function Task(props) {
       />
       <button>Update</button>
       <button
-        // disabled={!props.item.isChecked}
+        disabled={!props.item.isChecked}
         onClick={() => handleRemovetask(props.item.id)}
       >
         ❌
