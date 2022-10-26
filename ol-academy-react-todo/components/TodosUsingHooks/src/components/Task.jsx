@@ -24,7 +24,7 @@ function Task(props) {
         name=""
         id=""
         value={props.item.title}
-        // onChange={handleChange}
+        // onChange={props.handleChange}
       />
       <button>Update</button>
       <button
