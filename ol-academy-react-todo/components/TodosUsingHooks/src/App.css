@@ -12,7 +12,16 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.btn-delete-all{
+  width: 200px;
+  margin-left: 10px;
+  background-color: rgb(255, 87, 87);
+  color: white;
+}
+.btn-add {
+  margin-left: 10px;
+  background-color: rgb(33, 233, 33);
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

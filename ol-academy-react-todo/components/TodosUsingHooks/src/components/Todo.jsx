@@ -1,4 +1,5 @@
 // import userEvent from '@testing-library/user-event';
+// import { isDisabled } from "@testing-library/user-event/dist/utils";
 import React, { useState } from "react";
 import Task from "./Task";
 
@@ -17,6 +18,8 @@ function Todo() {
         id: tasks.length,
         title: mainInputValue,
         isChecked: false,
+        isDisabled: true,
+        isEnabled: false,
       },
     ]);
 
@@ -31,6 +34,37 @@ function Todo() {
     setTasks(filtered);
 
     console.log("filtered", filtered);
+  };
+
+  const handleIsDonetask= (id) => {
+    let isDone = tasks.filter((item) => item.id !== id);
+
+    setTasks(isDone);
+
+    console.log("DONEED", isDone);
+  }
+
+  const handleEditTask = (id, isDisabled) => {
+    let updatedList = tasks.map((item) => {
+      if (item.id === id) {
+        item.isDisabled = isDisabled;
+      }
+      return item;
+    });
+
+    setTasks(updatedList);
+  };
+
+  const handleUpdateTask = (id, isEnabled) => {
+    console.log(id, isEnabled);
+    let updatedList = tasks.map((item) => {
+      if (item.id === id) {
+        item.isDisabled = isEnabled;
+      }
+      return item;
+    });
+    console.log(updatedList);
+    setTasks(updatedList);
   };
 
   function handleChangeCheckbox(id, isChecked) {
@@ -52,6 +86,13 @@ function Todo() {
     setMainInputValue(e.target.value);
   }
 
+  const handleDeleteAllTask = (id) => {
+    console.log("delete All tasks");
+    let deletedAllTasks = tasks.filter((item) => item.id === id);
+    setTasks(deletedAllTasks);
+
+  };
+
   return (
     <div>
       <ul>
@@ -63,8 +104,13 @@ function Todo() {
               value={mainInputValue}
               type="text"
             />
-            <button onClick={() => handleAddTask("")}>➕</button>
-
+            <button className="btn-add" onClick={() => handleAddTask("")}>➕</button>
+            <button
+              className="btn-delete-all"
+              onClick={() => handleDeleteAllTask()}
+            >
+              Delete All Tasks
+            </button>
             <div></div>
           </div>
         </li>
@@ -78,9 +124,12 @@ function Todo() {
             // currentTodo={this.state.selectedForEdit}
 
             handleRemove={(id) => handleRemovetask(id)}
-            handleCheckbox={(id, isCheked) =>
-              handleChangeCheckbox(id, isCheked)
+            handleISDone={(id) => handleIsDonetask(id)}
+            handleCheckbox={(id, isChecked) =>
+              handleChangeCheckbox(id, isChecked)
             }
+            handleEdit={(id, isDisabled) => handleEditTask(id, isDisabled)}
+            handleUpdate={(id, isEnabled) => handleUpdateTask(id, isEnabled)}
           />
         );
       })}
