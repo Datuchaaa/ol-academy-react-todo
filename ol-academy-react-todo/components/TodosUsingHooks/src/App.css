@@ -18,6 +18,13 @@
   background-color: rgb(255, 87, 87);
   color: white;
 }
+.isDoneTask{
+  background-color: rgb(84, 253, 84);
+  justify-content: center;
+  width: 300px;
+  border-radius: 5px;
+  display: flex;
+}
 .btn-add {
   margin-left: 10px;
   background-color: rgb(33, 233, 33);

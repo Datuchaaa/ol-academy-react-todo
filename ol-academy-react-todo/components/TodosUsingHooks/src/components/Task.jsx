@@ -1,12 +1,17 @@
+import { useState } from "react";
+
 function Task(props) {
   // console.log("props", props);
-
+const [x, setX] = useState(false)
   const handleRemovetask = (id) => {
     props.handleRemove(id);
     console.log("remove task");
   };
   const handleIsDonetask = (id) => {
     console.log("DONE", );
+    setX(!x)
+    
+    
   };
   const _handleChangeCheckbox = (e, id) => {
     // console.log("e", e);
@@ -30,7 +35,7 @@ function Task(props) {
       <input
         disabled={props.item.isDisabled}
         onChange={(event) => onChangeInputValue(event)}
-        className="task-input"
+        className={x ? "isDoneTask" : "task-input"}
         type="text"
         name=""
         id=""
