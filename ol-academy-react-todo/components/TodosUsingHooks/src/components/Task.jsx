@@ -2,14 +2,14 @@ import { useState } from "react";
 
 function Task(props) {
   // console.log("props", props);
-const [x, setX] = useState(false)
+const [doneTask, setDoneTask] = useState(false)
   const handleRemovetask = (id) => {
     props.handleRemove(id);
     console.log("remove task");
   };
   const handleIsDonetask = (id) => {
     console.log("DONE", );
-    setX(!x)
+    setDoneTask(!doneTask)
     
     
   };
@@ -35,7 +35,7 @@ const [x, setX] = useState(false)
       <input
         disabled={props.item.isDisabled}
         onChange={(event) => onChangeInputValue(event)}
-        className={x ? "isDoneTask" : "task-input"}
+        className={doneTask ? "isDoneTask" : "task-input"}
         type="text"
         name=""
         id=""
