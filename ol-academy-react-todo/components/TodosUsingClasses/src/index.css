@@ -50,7 +50,7 @@ button{
   display: flex;
 }
 .task-wrapper{
-  width: 700px;
+  width: 800px;
   justify-content: space-around;
   display: flex;
   align-items: center;

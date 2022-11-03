@@ -90,6 +90,7 @@ function Todo() {
     console.log("delete All tasks");
     let deletedAllTasks = tasks.filter((item) => item.id === id);
     setTasks(deletedAllTasks);
+    console.log(deletedAllTasks)
 
   };
 

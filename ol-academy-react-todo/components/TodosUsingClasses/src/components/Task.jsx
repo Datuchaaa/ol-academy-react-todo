@@ -6,7 +6,7 @@ class Task extends React.Component {
     this.state = {
       value: "",
       showEditor: false,
-
+      doneTask: false,
       item: props.item,
     };
   }
@@ -25,12 +25,18 @@ class Task extends React.Component {
     this.props.handleRemove(id);
     console.log("remove task");
   };
+  handleIsDonetask = (id) => {
+    console.log("DONE");
+    let doneTask = this.state.doneTask;
+    this.setState({ tasks: !doneTask });
+  };
   handleChangeCheckbox = (e, id) => {
     console.log("e", e);
     this.props.handleCheckbox(id, e.nativeEvent.target.checked);
   };
-  handleEditTodoItem = (e) => {
+  _handleEditTask = (e, id) => {
     console.log("edit", e);
+    this.setState.handleEdit(id, false);
   };
 
   render() {
@@ -38,24 +44,32 @@ class Task extends React.Component {
       <div className="task-wrapper">
         <label htmlFor="">Task:</label>
         <input
-          className="task-input"
+          disabled={this.state.item.isDisabled}
+          className={this.state.doneTask ? "isDoneTask" : "task-input"}
           type="text"
           name=""
           id=""
           value={this.state.item.title}
           onChange={this.handleChange}
         />
+        <button onClick={(e) => this._handleEditTask(e, this.state.item.id)}>✎</button>
         <button onClick={this.handleUpdate}>Update</button>
+
+        <button>⬇</button>
+        <button>⬆</button>
         <button
           disabled={!this.state.item.isChecked}
           onClick={() => this.handleRemovetask(this.state.item.id)}
         >
           ❌
         </button>
-        <button onClick={() => this.handleEditTodoItem(Task)}>✎</button>
-
-        <button>⬇</button>
-        <button>⬆</button>
+        <button
+          className="isDone-btn"
+          disabled={!this.state.item.isChecked}
+          onClick={() => this.handleIsDonetask(this.state.item.id)}
+        >
+          ✔️
+        </button>
         <input
           checked={this.state.item.isChecked}
           onChange={(e) => this.handleChangeCheckbox(e, this.state.item.id)}

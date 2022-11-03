@@ -11,7 +11,6 @@ const [doneTask, setDoneTask] = useState(false)
     console.log("DONE", );
     setDoneTask(!doneTask)
     
-    
   };
   const _handleChangeCheckbox = (e, id) => {
     // console.log("e", e);
