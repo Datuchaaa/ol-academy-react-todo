@@ -4,7 +4,7 @@ import Todo from "./components/Todo";
 function App() {
   return (
     <div className="wrapper">
-      <h1>Hello React ToDo App</h1>
+      <h1>Hello React ToDo App With Classes</h1>
       <Todo />
     </div>
   );

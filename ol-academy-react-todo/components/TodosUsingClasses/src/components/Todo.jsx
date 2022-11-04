@@ -1,3 +1,4 @@
+// import { isDisabled } from "@testing-library/user-event/dist/utils";
 import React from "react";
 import Task from "./Task";
 
@@ -25,6 +26,10 @@ class Todo extends React.Component {
           id: this.state.tasks.length,
           title: this.state.mainInputValue,
           isChecked: false,
+          isDisabled: true,
+          isEnabled: false,
+          doneTask: false,
+          position: this.state.tasks.length,
         },
       ],
     });
@@ -50,7 +55,7 @@ class Todo extends React.Component {
     console.log("filtered", filtered);
   }
 
- handleEditTask = (id, isDisabled) => {
+  handleEditTask = (id, isDisabled) => {
     let updatedList = this.state.tasks.map((item) => {
       if (item.id === id) {
         item.isDisabled = isDisabled;
@@ -83,6 +88,41 @@ class Todo extends React.Component {
     // console.log('e-wwd', e.target.value);
     this.setState({ mainInputValue: e.target.value });
   }
+  handleUpdateTask = (id, isEnabled) => {
+    console.log(id, isEnabled);
+    let updatedList = this.state.tasks.map((item) => {
+      if (item.id === id) {
+        item.isDisabled = isEnabled;
+      }
+      return item;
+    });
+    console.log(updatedList);
+    this.setState({
+      tasks: updatedList,
+    });
+  };
+
+  _handlePositionChange = (task, type) => {
+    if (type === "down" && task.position === this.state.tasks.length - 1) {
+      return;
+    }
+
+    if (type === "up" && task.position === 0) {
+      return;
+    }
+
+    let tasks = this.state.tasks;
+    const sibling =
+      type === "up" ? tasks[task.position - 1] : tasks[task.position + 1];
+
+    let temp = task.position;
+    task.position = sibling.position;
+    sibling.position = temp;
+
+    tasks = tasks.sort((a, b) => (a.position > b.position ? 1 : -1));
+
+    this.setState({ tasks: tasks });
+  };
 
   render() {
     return (
@@ -118,12 +158,18 @@ class Todo extends React.Component {
             <Task
               key={item.id}
               item={item}
-              //   currentTodo={this.state.selectedForEdit}
-              handleUpdate={this.handleUpdateTodo}
-              handleEdit={(id, isDisabled) => this.handleEditTask(id, isDisabled)}
+              handleUpdate={(id, isDisabled) =>
+                this.handleUpdateTask(id, isDisabled)
+              }
+              handleEdit={(id, isDisabled) =>
+                this.handleEditTask(id, isDisabled)
+              }
               handleRemove={(id) => this.handleRemovetask(id)}
               handleCheckbox={(id, isCheked) =>
                 this.handleChangeCheckbox(id, isCheked)
+              }
+              handlePositionChange={(task, type) =>
+                this._handlePositionChange(task, type)
               }
             />
           );

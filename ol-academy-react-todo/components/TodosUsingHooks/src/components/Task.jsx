@@ -2,15 +2,15 @@ import { useState } from "react";
 
 function Task(props) {
   // console.log("props", props);
-const [doneTask, setDoneTask] = useState(false)
+  const [doneTask, setDoneTask] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
   const handleRemovetask = (id) => {
     props.handleRemove(id);
     console.log("remove task");
   };
   const handleIsDonetask = (id) => {
-    console.log("DONE", );
-    setDoneTask(!doneTask)
-    
+    console.log("DONE", !doneTask);
+    setDoneTask(!doneTask);
   };
   const _handleChangeCheckbox = (e, id) => {
     // console.log("e", e);
@@ -19,6 +19,7 @@ const [doneTask, setDoneTask] = useState(false)
   const _handleEditTask = (e, id) => {
     console.log("edit", e);
     props.handleEdit(id, false);
+    setIsEdited(!isEdited);
   };
   const _handleUpdateTask = (e, id) => {
     console.log("update", props);
@@ -27,6 +28,15 @@ const [doneTask, setDoneTask] = useState(false)
   function onChangeInputValue(e) {
     console.log("target change", e);
   }
+  const handleMoveDown = (e) => {
+    console.log(e, "movedown");
+    props.handlePosition(props.item, "down");
+  };
+
+  const handleMoveUp = (e) => {
+    console.table(e, "moveup");
+    props.handlePosition(props.item, "up");
+  };
 
   return (
     <div className="task-wrapper">
@@ -34,7 +44,13 @@ const [doneTask, setDoneTask] = useState(false)
       <input
         disabled={props.item.isDisabled}
         onChange={(event) => onChangeInputValue(event)}
-        className={doneTask ? "isDoneTask" : "task-input"}
+        className={
+          doneTask
+            ? "isDoneTask"
+            : "task-input" && isEdited
+            ? "isEdited"
+            : "task-input"
+        }
         type="text"
         name=""
         id=""
@@ -47,8 +63,8 @@ const [doneTask, setDoneTask] = useState(false)
         Update
       </button>
 
-      <button>⬇</button>
-      <button>⬆</button>
+      <button onClick={(e) => handleMoveDown(e, props.item.id)}>DOWN</button>
+      <button onClick={(e) => handleMoveUp(e, props.item.id)}>UP</button>
       <button
         disabled={!props.item.isChecked}
         onClick={() => handleRemovetask(props.item.id)}
