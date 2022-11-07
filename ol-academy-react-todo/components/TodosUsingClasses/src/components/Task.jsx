@@ -21,35 +21,29 @@ class Task extends React.Component {
   };
 
   handleRemovetask = (id) => {
+    console.log("sdsdsdsdsd");
     this.props.handleRemove(id);
-    console.log("remove task");
   };
   handleIsDonetask = (id) => {
-    console.log("DONE", !this.state.doneTask);
     this.setState({ doneTask: !this.state.doneTask });
   };
   handleChangeCheckbox = (e, id) => {
-    console.log("e", e);
     this.props.handleCheckbox(id, e.nativeEvent.target.checked);
   };
   _handleEditTask = (e, id) => {
-    console.log("edit", e);
     this.props.handleEdit(id, false);
     this.setState({ isEdited: !this.state.isEdited });
   };
 
   handleMoveDown = (e) => {
-    console.log(e, "movedown");
     this.props.handlePositionChange(this.state.item, "down");
   };
 
   handleMoveUp = (e) => {
-    console.log(e, "moveup");
     this.props.handlePositionChange(this.state.item, "up");
   };
 
   render() {
-    // console.log("DONE@@" , !this.state.doneTask)
     return (
       <div className="task-wrapper">
         <label htmlFor="">Task:</label>
@@ -82,14 +76,14 @@ class Task extends React.Component {
           UP
         </button>
         <button
-          disabled={!this.state.item.isChecked}
+          // disabled={!this.state.item.isChecked}
           onClick={() => this.handleRemovetask(this.state.item.id)}
         >
           ❌
         </button>
         <button
           className="isDone-btn"
-          disabled={!this.state.item.isChecked}
+          // disabled={!this.state.item.isChecked}
           onClick={() => this.handleIsDonetask(this.state.item.id)}
         >
           ✔️

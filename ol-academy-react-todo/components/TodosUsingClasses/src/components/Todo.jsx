@@ -6,17 +6,14 @@ class Todo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainInputValue: "",
+      newTaskValue: "",
       showAddedTask: false,
-      showEditor: false,
-      selectedForEdit: undefined,
       tasks: [],
     };
   }
-  test = "";
 
   handleAddTask = () => {
-    if (this.state.mainInputValue === "") {
+    if (this.state.newTaskValue === "") {
       return alert("Please Enter Task");
     }
     this.setState({
@@ -24,35 +21,34 @@ class Todo extends React.Component {
         ...this.state.tasks,
         {
           id: this.state.tasks.length,
-          title: this.state.mainInputValue,
+          title: this.state.newTaskValue,
           isChecked: false,
           isDisabled: true,
-          isEnabled: false,
           doneTask: false,
           position: this.state.tasks.length,
         },
       ],
     });
 
-    this.setState({ mainInputValue: "" });
-
-    console.log("wwww", this.state.mainInputValue);
+    this.setState({ newTaskValue: "" });
   };
 
-  handleDeleteAllTask = (id) => {
-    console.log("delete All tasks");
-    let deletedAllTasks = this.state.tasks.filter((item) => item.id === id);
+  handleDeleteAllTask = (currentId) => {
+    let deletedAllTasks = this.state.tasks.filter(({ id }) => id === currentId);
     this.setState({ tasks: deletedAllTasks });
   };
 
-  handleRemovetask(id) {
-    let filtered = this.state.tasks.filter((item) => item.id !== id);
+  deleteMarkedItems = (del) => {
+    del === "deletemarked" &&
+        this.setState({ tasks: this.state.tasks.filter((item) => !item.isChecked) });
+  };
+
+  handleRemovetask(currentId) {
+    let filtered = this.state.tasks.filter(({ id }) => id !== currentId);
 
     this.setState({
       tasks: filtered,
     });
-
-    console.log("filtered", filtered);
   }
 
   handleEditTask = (id, isDisabled) => {
@@ -75,9 +71,6 @@ class Todo extends React.Component {
       }
       return item;
     });
-    console.log("id", id);
-    console.log("checked", isChecked);
-    console.log("updated list", updatedList);
 
     this.setState({
       tasks: updatedList,
@@ -85,18 +78,15 @@ class Todo extends React.Component {
   }
 
   onChangeInputValue(e) {
-    // console.log('e-wwd', e.target.value);
-    this.setState({ mainInputValue: e.target.value });
+    this.setState({ newTaskValue: e.target.value });
   }
   handleUpdateTask = (id, isEnabled) => {
-    console.log(id, isEnabled);
     let updatedList = this.state.tasks.map((item) => {
       if (item.id === id) {
         item.isDisabled = isEnabled;
       }
       return item;
     });
-    console.log(updatedList);
     this.setState({
       tasks: updatedList,
     });
@@ -111,7 +101,7 @@ class Todo extends React.Component {
       return;
     }
 
-    let tasks = this.state.tasks;
+    let tasks = [...this.state.tasks];
     const sibling =
       type === "up" ? tasks[task.position - 1] : tasks[task.position + 1];
 
@@ -133,10 +123,11 @@ class Todo extends React.Component {
               <input
                 placeholder="Enter task"
                 onChange={(event) => this.onChangeInputValue(event)}
-                value={this.state.mainInputValue}
+                value={this.state.newTaskValue}
                 type="text"
               />
               <button
+                type="submit"
                 className="btn-add"
                 onClick={() => this.handleAddTask("")}
               >
@@ -147,6 +138,12 @@ class Todo extends React.Component {
                 onClick={() => this.handleDeleteAllTask()}
               >
                 Delete All Tasks
+              </button>
+              <button
+                onClick={() => this.deleteMarkedItems("deletemarked")}
+                className="btn-delete-all"
+              >
+                Delete Checked
               </button>
               <div></div>
             </div>

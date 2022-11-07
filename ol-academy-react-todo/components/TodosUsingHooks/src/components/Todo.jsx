@@ -1,10 +1,7 @@
-// import userEvent from '@testing-library/user-event';
-// import { isDisabled } from "@testing-library/user-event/dist/utils";
 import React, { useState } from "react";
 import Task from "./Task";
 
 function Todo() {
-  // Declare a new state variable, which we'll call "count"
   const [mainInputValue, setMainInputValue] = useState("");
   const [tasks, setTasks] = useState([]);
 
@@ -25,24 +22,17 @@ function Todo() {
     ]);
 
     setMainInputValue("");
-
-    console.log("wwww", mainInputValue);
   };
 
   const handleRemovetask = (id) => {
     let filtered = tasks.filter((item) => item.id !== id);
 
     setTasks(filtered);
-
-    console.log("filtered", filtered);
   };
 
   const handleIsDonetask = (id) => {
     let isDone = tasks.filter((item) => item.id !== id);
-
     setTasks(isDone);
-
-    console.log("DONEED", isDone);
   };
 
   const handleEditTask = (id, isDisabled) => {
@@ -57,14 +47,13 @@ function Todo() {
   };
 
   const handleUpdateTask = (id, isEnabled) => {
-    console.log(id, isEnabled);
     let updatedList = tasks.map((item) => {
       if (item.id === id) {
         item.isDisabled = isEnabled;
       }
       return item;
     });
-    console.log(updatedList);
+
     setTasks(updatedList);
   };
 
@@ -75,23 +64,22 @@ function Todo() {
       }
       return item;
     });
-    console.log("id", id);
-    console.log("checked", isChecked);
-    console.log("updated list", updatedList);
 
     setTasks(updatedList);
   }
 
   function onChangeInputValue(e) {
-    // console.log("eee", e);
     setMainInputValue(e.target.value);
   }
 
   const handleDeleteAllTask = (id) => {
-    console.log("delete All tasks");
     let deletedAllTasks = tasks.filter((item) => item.id === id);
     setTasks(deletedAllTasks);
-    console.log(deletedAllTasks);
+  };
+
+  const deleteMarkedItems = (del) => {
+    del === "deletemarked" &&
+      setTasks(tasks.filter((item) => !item.isChecked));
   };
 
   const handlePositionChange = (task, type) => {
@@ -103,7 +91,7 @@ function Todo() {
       return;
     }
 
-    let _tasks = tasks;
+    let _tasks = [...tasks];
     const sibling =
       type === "up" ? tasks[task.position - 1] : tasks[task.position + 1];
 
@@ -136,6 +124,12 @@ function Todo() {
             >
               Delete All Tasks
             </button>
+            <button
+              onClick={() => deleteMarkedItems("deletemarked")}
+              className="btn-delete-all"
+            >
+              Delete Checked
+            </button>
             <div></div>
           </div>
         </li>
@@ -146,7 +140,6 @@ function Todo() {
           <Task
             key={item.id}
             item={item}
-            // currentTodo={this.state.selectedForEdit}
             handleRemove={(id) => handleRemovetask(id)}
             handleISDone={(id) => handleIsDonetask(id)}
             handleCheckbox={(id, isChecked) =>
