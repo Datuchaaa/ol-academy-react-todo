@@ -13,22 +13,27 @@ class Todo extends React.Component {
   }
 
   handleAddTask = () => {
-    if (this.state.newTaskValue === "") {
-      return alert("Please Enter Task");
-    }
-    this.setState({
-      tasks: [
-        ...this.state.tasks,
-        {
-          id: this.state.tasks.length,
-          title: this.state.newTaskValue,
-          isChecked: false,
-          isDisabled: true,
-          doneTask: false,
-          position: this.state.tasks.length,
-        },
-      ],
+    const isFound = this.state.tasks.find((task) => {
+      if (task.title === this.state.newTaskValue.trim()) {
+        return true;
+      }
+      return false;
     });
+    if (!isFound && this.state.newTaskValue.trim() !== "") {
+      this.setState({
+        tasks: [
+          ...this.state.tasks,
+          {
+            id: this.state.tasks.length,
+            title: this.state.newTaskValue,
+            isDisabled: true,
+            isDone: false,
+            isChecked: false,
+            position: this.state.tasks.length,
+          },
+        ],
+      });
+    } else alert("Error");
 
     this.setState({ newTaskValue: "" });
   };
@@ -40,7 +45,9 @@ class Todo extends React.Component {
 
   deleteMarkedItems = (del) => {
     del === "deletemarked" &&
-        this.setState({ tasks: this.state.tasks.filter((item) => !item.isChecked) });
+      this.setState({
+        tasks: this.state.tasks.filter((item) => !item.isChecked),
+      });
   };
 
   handleRemovetask(currentId) {

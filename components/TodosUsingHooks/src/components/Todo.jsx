@@ -6,20 +6,27 @@ function Todo() {
   const [tasks, setTasks] = useState([]);
 
   const handleAddTask = () => {
-    if (mainInputValue === "") {
-      return alert("Please Enter Task");
-    }
-    setTasks([
-      ...tasks,
-      {
-        id: tasks.length,
-        title: mainInputValue,
-        isChecked: false,
-        isDisabled: true,
-        isEnabled: false,
-        position: tasks.length,
-      },
-    ]);
+    const isFound = tasks.find((task) => {
+      if (task.title === mainInputValue.trim()) {
+        return true;
+      }
+      return false;
+    });
+    if (!isFound && mainInputValue.trim() !== "") {
+      let todos = [...tasks];
+      todos = [
+        ...todos,
+        {
+          id: tasks.length,
+          title: mainInputValue,
+          isDisabled: true,
+          isDone: false,
+          isChecked: false,
+          position: tasks.length,
+        },
+      ];
+      setTasks(todos);
+    } else alert("Error");
 
     setMainInputValue("");
   };
@@ -78,8 +85,7 @@ function Todo() {
   };
 
   const deleteMarkedItems = (del) => {
-    del === "deletemarked" &&
-      setTasks(tasks.filter((item) => !item.isChecked));
+    del === "deletemarked" && setTasks(tasks.filter((item) => !item.isChecked));
   };
 
   const handlePositionChange = (task, type) => {

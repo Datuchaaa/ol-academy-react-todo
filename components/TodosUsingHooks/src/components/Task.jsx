@@ -8,6 +8,7 @@ function Task(props) {
   };
   const handleIsDonetask = (id) => {
     setDoneTask(!doneTask);
+   
   };
   const _handleChangeCheckbox = (e, id) => {
     props.handleCheckbox(id, e.target.checked);
